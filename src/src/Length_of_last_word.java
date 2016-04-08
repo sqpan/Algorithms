@@ -7,7 +7,8 @@ public class Length_of_last_word {
         
         // read the char array and count the length
         for (int i = new_s.length - 1; i >= 0; i--) {
-            if (length == 0) {
+        	if (length == 0) {
+        		// if the last of word is a space, continue search
                 if (new_s[i] == ' ') {
                     continue;
                 }
@@ -16,7 +17,8 @@ public class Length_of_last_word {
                 }
             }
             else {
-                if (new_s[i] == ' ') {
+                //facing a space here means the last word ends
+            	if (new_s[i] == ' ') {
                     break;
                 }
                 else {
