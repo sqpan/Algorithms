@@ -1,26 +1,5 @@
-package Graph;
-
-import java.util.HashSet;
-import java.util.Set;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.*;
-
-public class word_ladder2 {
-
-	public static void main(String[] args) {
-		List<String> wordList = new ArrayList<String>();
-		wordList.add("hot");
-		wordList.add("dot");
-		wordList.add("dog");
-		wordList.add("lot");
-		wordList.add("log");
-		wordList.add("cog");
-		String begin = "hit";
-		String end = "cog";
-		List<List<String>> result =findLadders(begin, end , wordList);
-	}
-	public static List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
+class Solution {
+    public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
         List<List<String>> result = new ArrayList<List<String>>();
         List<String> solution = new ArrayList<String>();
         Map<String, Integer> distance = new HashMap<String, Integer>();
@@ -30,7 +9,7 @@ public class word_ladder2 {
         return result;
     }
     
-    private static void bfs(String beginWord, String endWord, List<String> wordList, Map<String, Integer> distance, Map<String, List<String>> neighbor) {
+    private void bfs(String beginWord, String endWord, List<String> wordList, Map<String, Integer> distance, Map<String, List<String>> neighbor) {
         int dis = 1;
         distance.put(beginWord, dis);
         neighbor.put(beginWord, new ArrayList<String>());
@@ -47,27 +26,26 @@ public class word_ladder2 {
                 String cur = queue.poll();
                 for (int j = 0; j < wordList.size(); j++) {
                     String next = wordList.get(j);
-                    if (next.equals(endWord) && distance.containsKey(next)) {
+                    if( diff(cur, next) )
+                    {
                         neighbor.get(cur).add(next);
-                        foundEnd = true;
-                    }
-                    if (diff(cur, next) && !distance.containsKey(next)) {
-                        distance.put(next, dis);
-                        neighbor.get(cur).add(next);
-                        queue.offer(next);
+                        if (!distance.containsKey(next)) {
+                            distance.put(next, dis);
+                            queue.offer(next);
+                        }
+                        
                         if (next.equals(endWord)) {
                             foundEnd = true;
                         }
-                    }
-                    
-                    
+                    }                   
                 }
-                if (foundEnd) {break;}
             }
+            if (foundEnd) {break;}
         }
     }
+
     
-    private static boolean diff(String a, String b) {
+    private boolean diff(String a, String b) {
         if (a.length() != b.length()) {return false;}
         int count = 0;
         for (int i = 0; i < a.length(); i++) {
